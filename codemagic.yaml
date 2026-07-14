@@ -8,6 +8,15 @@ workflows:
       - name: Build Android
         script: |
           ./gradlew assembleDebug          
-
     artifacts:
       - app/build/outputs/apk/debug/app-debug.apk
+
+  flutter-ios-simulator:
+    name: Flutter iOS Simulator
+    environment:
+      flutter: 3.27.3
+      xcode: latest
+    scripts:
+      - flutter build ios --simulator --flavor staging  # --flavor is optional
+        artifacts:
+      - build/ios/iphonesimulator/Runner.app
