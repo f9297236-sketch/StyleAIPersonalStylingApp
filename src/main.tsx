@@ -5,3 +5,4 @@
 
   createRoot(document.getElementById("root")!).render(<App />);
   npx eas-cli@latest build --platform all
+mkdir .eas\workflows && type nul > .eas\workflows\create-production-builds.yml
