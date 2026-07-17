@@ -1,24 +1,39 @@
 workflows:
-  android:
-    name: Android debug workflow
+  android-debug:
+    name: Android Debug Build
+    max_build_duration: 30
+    environment:
+      android_sdk_version: "34"
+      vars:
+        CM_ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT
     scripts:
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
-      - name: Build Android
+      
+      - name: Build Android Debug APK
         script: |
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
+
     artifacts:
       - app/build/outputs/apk/debug/app-debug.apk
 
   flutter-ios-simulator:
-    name: Flutter iOS Simulator
+    name: Flutter iOS Simulator Build
+    max_build_duration: 40
     environment:
-      flutter: 3.27.3
+      flutter: "3.27.3"
       xcode: latest
+      vars:
+        FLUTTER_BUILD_MODE: debug
     scripts:
+      - name: Get Flutter dependencies
+        script: |
+          flutter pub get
+
       - name: Build Flutter iOS Simulator
         script: |
-          flutter build ios --simulator --flavor staging
+          flutter build ios --simulator --flavor staging --no-codesign
+
     artifacts:
       - build/ios/iphonesimulator/Runner.app
