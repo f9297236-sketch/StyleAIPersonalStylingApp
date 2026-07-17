@@ -3,7 +3,6 @@ workflows:
     name: Android Debug Build
     max_build_duration: 30
     environment:
-      android_sdk_version: "34"
       vars:
         CM_ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT
     scripts:
