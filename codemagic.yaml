@@ -1,7 +1,7 @@
 workflows:
   android-debug:
     name: Android Debug Build (Flutter)
-    max_build_duration: 40
+    max_build_duration: 45
     environment:
       flutter: "3.27.3"
       vars:
@@ -9,20 +9,23 @@ workflows:
     scripts:
       - name: Get Flutter dependencies
         script: |
-          cd $CM_BUILD_DIR          # ← Важливо!
+          cd $CM_BUILD_DIR
+          ls -la                     # debug: see where we are
+          cd YourProjectFolder       # ←←← CHANGE THIS to your actual folder name
           flutter pub get
 
       - name: Build Android Debug APK
         script: |
           cd $CM_BUILD_DIR
-          flutter build apk --debug --flavor staging   # прибери --flavor staging, якщо не використовуєш flavors
+          cd YourProjectFolder       # ←←← CHANGE THIS
+          flutter build apk --debug
 
     artifacts:
-      - build/app/outputs/flutter-apk/app-staging-debug.apk   # зміни якщо немає flavor
+      - main/build/app/outputs/flutter-apk/app-debug.apk   # adjust path
 
   flutter-ios-simulator:
     name: Flutter iOS Simulator Build
-    max_build_duration: 45
+    max_build_duration: 50
     environment:
       flutter: "3.27.3"
       xcode: latest
@@ -30,12 +33,14 @@ workflows:
       - name: Get Flutter dependencies
         script: |
           cd $CM_BUILD_DIR
+          cd YourProjectFolder       # ←←← CHANGE THIS
           flutter pub get
 
       - name: Build Flutter iOS Simulator
         script: |
           cd $CM_BUILD_DIR
-          flutter build ios --simulator --flavor staging --no-codesign
+          cd YourProjectFolder       # ←←← CHANGE THIS
+          flutter build ios --simulator --no-codesign
 
     artifacts:
-      - build/ios/iphonesimulator/Runner.app
+      - main/build/ios/iphonesimulator/Runner.app
